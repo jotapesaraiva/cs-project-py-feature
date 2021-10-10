@@ -86,10 +86,10 @@ pipeline {
         stage('Empacotando') {
             steps {
                 echo 'Compactando arquivo em ZIP'
-                sh{'''
-                zip -r cs-projetct-py-feature-${build_number}.zip * -x 'venv'
-                    '''}
+                sh{'''zip -r cs-projetct-py-feature-${build_number}.zip * -x 'venv'
+                '''
                 }
+            }
         }
 
         /*
