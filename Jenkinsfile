@@ -32,7 +32,6 @@ pipeline {
                 """
             }
         }
-
 /*        }
         stage('Checkout') {
             steps {
@@ -45,7 +44,6 @@ pipeline {
                 """
             }
         }*/
-
         stage('Empacotando') {
             steps {
                 echo 'Compactando arquivo em ZIP'
