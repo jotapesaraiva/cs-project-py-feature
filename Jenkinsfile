@@ -7,6 +7,8 @@ pipeline {
         FLASK_ENV = 'testing'
         FLASK_APP = 'application.py'
         DEBUG = true
+
+        BucketName='artefactrepository'
     }
     stages {
         stage('Git Checkout') {
@@ -79,25 +81,21 @@ pipeline {
         stage('Empacotando') {
             steps {
                 echo 'Compactando arquivo em ZIP'
-                sh"""zip -r cs-projetct-py-feature-${BUILD_NUMBER}.zip * -x 'venv'"""
+                sh"""zip -r cs-projetct-py-feature-${BUILD_NUMBER}.zip * -x '*venv*'"""
+                echo 'removendo o venv'
+                sh 'rm -rf venv'
             }
         }
 
-        /*
-        stage('Deploy') {
-            agent any
-            environment{
-                AWS_DEFAULT_REGION='us-east-1'
-                THE_BUTLER_SAYS_SO=credentials('cyn-aws-creds') 
-            }
+
+        stage('Archivament S3') {
             steps {
-                echo 'Deploying....'
-                sh '''
-                    aws --version 
-                    aws ec2 describe-instances 
-                ''' 
+                echo 'Deploying on S3....'
+                sh """
+                    aws s3 cp cs-projetct-py-feature-${BUILD_NUMBER}.zip s3://$BucketName --region ap-south-1
+                """
             }
         }
-        */
+
     }
 }
