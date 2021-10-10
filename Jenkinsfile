@@ -29,7 +29,7 @@ pipeline {
         stage ("Install Dependencies") {
             steps {
                 sh """
-                pip install virtualenv
+                pip3.8 install virtualenv
                 virtual venv
                 source venv/bin/activate
                 pip install --upgrade pip
