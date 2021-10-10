@@ -91,9 +91,11 @@ pipeline {
         stage('Archivament S3') {
             steps {
                 echo 'Deploying on S3....'
-                sh """
-                    aws s3 cp cs-projetct-py-feature-${BUILD_NUMBER}.zip s3://$BucketName --region ${AWS_DEFAULT_REGION}
-                """
+                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'Jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh """
+                        aws s3 cp cs-projetct-py-feature-${BUILD_NUMBER}.zip s3://$BucketName --region ${AWS_DEFAULT_REGION}
+                    """
+                }
             }
         }
 
