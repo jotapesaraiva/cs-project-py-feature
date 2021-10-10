@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block body%}
+
+<div class="container mt-3">
+    <h1 style="color: rgb(73, 10, 156)"> Comunidade Impressionadora - Hashtag Treinamentos </h1>
+    <h2 style="color: rgb(224, 13, 119)"> Teste commit CS Python ####### Alunos, Experts e a Galera da Hashtag em um só Lugar</h2>
+    <hr> {% for post in lista_posts %}
+    <div class="row border rounded mt-4 p-3 meupost">
+        <div class="col col-3">
+            <div class="image pe-2"> <img src="{{ url_for('static',filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}" class="rounded" height="200" width="200"> </div>
+            <strong>{{post.autor.username}}</strong> <br>
+
+            <div class="row justify-content-center">
+                {% for curso in post.autor.cursos.split(';') %}
+                <button type="button" class="btn btn-success mt-2" disabled>{{ curso }}</button> {% endfor %}
+
+            </div>
+        </div>
+
+        <div class="col col-9">
+            <a style="text-decoration: none" href="{{ url_for('exibir_post', post_id = post.id) }}">
+                <h3>{{post.titulo}}</h3>
+            </a>
+            <p>{{post.corpo}}</p>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

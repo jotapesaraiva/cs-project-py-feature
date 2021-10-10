@@ -1,0 +1,22 @@
+#imagem do docker que vai ser usado para renderizar o sistema
+image: python:latest
+
+# job para fazer deploy no gitlab pages
+pages:
+  script: 
+    - echo "não estamos fazendo nada ainda"
+  # artefacts o que eu vou deixar para baixar depois que o build for feito 
+  artifacts:
+    paths: 
+      - comunidadeimpressionadora #public
+  # vai rodar este job page somente quando for feito um commit no branch master
+  only:
+    - master    
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: http://cspyteste-env.eba-ux2dwany.us-east-1.elasticbeanstalk.com/
