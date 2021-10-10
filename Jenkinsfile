@@ -29,8 +29,7 @@ pipeline {
         stage ("Install Dependencies") {
             steps {
                 sh """
-                pip3.8 install virtualenv
-                virtualenv venv
+                /usr/local/bin/virtualenv venv
                 source venv/bin/activate
                 pip install --upgrade pip
                 pip install flask
@@ -84,24 +83,14 @@ pipeline {
             }
         }*/
 
-        /*
-        stage('Build') {
+        stage('Empacotando') {
             steps {
-
-                echo 'Criando requirements.txt.'
+                echo 'Compactando arquivo em ZIP'
                 sh{'''
-                    python3.8 -m pip freeze > requirements.txt
-                    python3.8 -m pip install -r requirements.txt
+                zip -r cs-projetct-py-feature-${build_number}.zip * -x 'venv'
                     '''}
-                echo 'Instalando requirements.txt'
-
-                //echo 'Installing Maven...'
-                //sh "mvn install"
-
-                git branch: env.BRANCH_NAME, credentialsId: '7fceccfd-9ddd-45e5-bea4-e02bb545bf2d', url: 'http://gitlab.csicorpnet.com.br/cynthia/cs-project-py.git'
-            }
+                }
         }
-        */
 
         /*
         stage('Deploy') {
