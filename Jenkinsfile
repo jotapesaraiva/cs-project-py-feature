@@ -20,18 +20,7 @@ pipeline {
                 checkout scm
             }
         }
-/*        stage('Init'){
-            steps{
-                //checkout scm;
-                script{
-                env.BASE_DIR = pwd()
-                env.CURRENT_BRANCH = env.BRANCH_NAME
-                env.IMAGE_TAG = getImageTag(env.CURRENT_BRANCH)
-                env.TIMESTAMP = getTimeStamp();
-                env.APP_NAME= getEnvVar('APP_NAME')
-                }
-            }
-        }*/
+
         stage ("Install Dependencies") {
             steps {
                 sh """
@@ -43,6 +32,7 @@ pipeline {
                 """
             }
         }
+
 /*        }
         stage('Checkout') {
             steps {
@@ -99,9 +89,6 @@ pipeline {
                 }
             }
         }
-
-
-
 
     }
 }
