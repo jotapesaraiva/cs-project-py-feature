@@ -87,6 +87,11 @@ pipeline {
                 }
             }
         }
+        stage('remove zip'){
+            steps{
+                sh """rm -rf ${BUILDNAME}.zip"""
+            }
+        }
 
     }
 }
