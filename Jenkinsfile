@@ -86,7 +86,7 @@ pipeline {
                     aws elasticbeanstalk create-application-version
                     --application-name "${APPLICATIONNAME}"
                     --version-label "${BUILDNAME}"
-                    --description "Build created from JENKINS. Job:${JOB_NAME}, BuildId:${BUILD_DISPLAY_NAME}, GitCommit:${GIT_COMMIT,} GitBranch:${GIT_BRANCH}"
+                    --description "Build created from JENKINS. Job:${JOB_NAME}, BuildId:${BUILD_DISPLAY_NAME}, GitCommit:${GIT_COMMIT}, GitBranch:${GIT_BRANCH}"
                     --source-bundle S3Bucket=${BUCKETNAME},S3Key=${BUILDNAME}.zip
                     --region ${AWS_DEFAULT_REGION}
                     """
