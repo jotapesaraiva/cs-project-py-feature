@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        AWS_DEFAULT_REGION='us-east-1'
+        AWS_DEFAULT_REGION='us-east-2'
         //THE_BUTLER_SAYS_SO = credentials('Jenkins-aws-creds')
         FLASK_ENV = 'testing'
         FLASK_APP = 'application.py'
