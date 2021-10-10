@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         AWS_DEFAULT_REGION='us-east-1'
-        THE_BUTLER_SAYS_SO = credentials('Jenkins-aws-creds')
+        //THE_BUTLER_SAYS_SO = credentials('Jenkins-aws-creds')
         FLASK_ENV = 'testing'
         FLASK_APP = 'application.py'
         DEBUG = true
@@ -11,38 +11,53 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-
-                git branch: env.BRANCH_NAME , url: 'http://gitlab.csicorpnet.com.br/cynthia/cs-project-py.git'
                 checkout scm
-                
+            }
+        }
+        stage('Init'){
+            steps{
+                //checkout scm;
+                script{
+                env.BASE_DIR = pwd()
+                env.CURRENT_BRANCH = env.BRANCH_NAME
+                env.IMAGE_TAG = getImageTag(env.CURRENT_BRANCH)
+                env.TIMESTAMP = getTimeStamp();
+                env.APP_NAME= getEnvVar('APP_NAME')
+                }
             }
         }
         stage ("Install Dependencies") {
             steps {
-                
-                /*
-                
+                sh """
                 pip install virtualenv
                 virtual venv
-                venv/Scripts/Activate
-                */
-                sh """
+                source venv/bin/activate
                 pip install --upgrade pip
-                pip install -r ${env.WORKSPACE}/requirements.txt
+                pip install flask
+                pip install -r requirements.txt
                 """
             }
-        }
-        stage('Run Tests') {
+/*        }
+        stage('Checkout') {
             steps {
                 //venv/Scripts/activate
                 sh """
-                echo "Running the unit test..."
-                make clean
-                make coverage
+                echo "Verificação de Dependencies"
+                pip list
+                which pip
+                which python
                 """
             }
+        }*/
+        stage('test') {
+            steps {
+                sh 'python test.py'
+            }
+            post {
+                always {junit 'test-reports/*.xml'}
+            }
         }
-        stage('Generate Release and deploy') {
+/*        stage('Generate Release and deploy') {
             steps {
                 script {
                     def version = readFile encoding: 'utf-8', file: '__version__.py'
@@ -66,7 +81,8 @@ pipeline {
                     """
                 }
             }
-        }
+        }*/
+
         /*
         stage('Build') {
             steps {
