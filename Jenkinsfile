@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         AWS_DEFAULT_REGION='us-east-1'
-        THE_BUTLER_SAYS_SO = credentials('cyn-aws-creds')
+        THE_BUTLER_SAYS_SO = credentials('Jenkins-aws-creds')
         FLASK_ENV = 'testing'
         FLASK_APP = 'application.py'
         DEBUG = true
