@@ -14,7 +14,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Init'){
+/*        stage('Init'){
             steps{
                 //checkout scm;
                 script{
@@ -25,7 +25,7 @@ pipeline {
                 env.APP_NAME= getEnvVar('APP_NAME')
                 }
             }
-        }
+        }*/
         stage ("Install Dependencies") {
             steps {
                 sh """
