@@ -92,7 +92,7 @@ pipeline {
             steps {
                 echo 'Deploying on S3....'
                 sh """
-                    aws s3 cp cs-projetct-py-feature-${BUILD_NUMBER}.zip s3://$BucketName --region ap-south-1
+                    aws s3 cp cs-projetct-py-feature-${BUILD_NUMBER}.zip s3://$BucketName --region ${AWS_DEFAULT_REGION}
                 """
             }
         }
