@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh """
                 pip3.8 install virtualenv
-                virtual venv
+                virtualenv venv
                 source venv/bin/activate
                 pip install --upgrade pip
                 pip install flask
