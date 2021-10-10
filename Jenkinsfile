@@ -12,8 +12,8 @@ pipeline {
         FLASK_ENV = 'testing'
         FLASK_APP = 'application.py'
         DEBUG = true
-
     }
+
     stages {
         stage('Git Checkout') {
             steps {
@@ -83,26 +83,18 @@ pipeline {
                 echo ''
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'Jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh """
-                    aws elasticbeanstalk create-application-version
-                    --application-name "${APPLICATIONNAME}"
-                    --version-label "${BUILDNAME}"
-                    --description "Build created from JENKINS. Job:${JOB_NAME}, BuildId:${BUILD_DISPLAY_NAME}, GitCommit:${GIT_COMMIT}, GitBranch:${GIT_BRANCH}"
-                    --source-bundle S3Bucket=${BUCKETNAME},S3Key=${BUILDNAME}.zip
-                    --region ${AWS_DEFAULT_REGION}
+                    aws elasticbeanstalk create-application-version --application-name "${APPLICATIONNAME}" --version-label "${BUILDNAME}" --description "Build created from JENKINS. Job:${JOB_NAME}, BuildId:${BUILD_DISPLAY_NAME}, GitCommit:${GIT_COMMIT}, GitBranch:${GIT_BRANCH}" --source-bundle S3Bucket=${BUCKETNAME},S3Key=${BUILDNAME}.zip --region ${AWS_DEFAULT_REGION}
                     """
                 }
             }
         }
 
-        stage('create elasticbeanstalk'){
+        stage('update environment elasticbeanstalk'){
             steps{
                 echo ''
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'Jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh """
-                        aws elasticbeanstalk update-environment
-                        --environment-name "${ENVIRONMENTNAME}"
-                        --version-label "${BUILDNAME}"
-                        --region ${AWS_DEFAULT_REGION}
+                        aws elasticbeanstalk update-environment --environment-name "${ENVIRONMENTNAME}" --version-label "${BUILDNAME}" --region ${AWS_DEFAULT_REGION}
                     """
                 }
             }
